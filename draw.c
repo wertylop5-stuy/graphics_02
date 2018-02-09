@@ -22,23 +22,55 @@ void drawLine(struct pixel grid[][IMG_WIDTH], int x1, int y1, int x2, int y2) {
 	point.g = 235;
 	point.b = 205;
 	
-	//octant 1
-	int a = y2-y1;	//???
+	int a = y2-y1;
 	int b = -(x2-x1);
 	int d;
 	
-	d = 2*a + b;
+	float m = a/b;
 	
-	while (x1 < x2) {
-		plotPoint(grid, x1, y1, &point);
-		printf("%d\n", d);
-		if (d > 0) {
-			y1++;
-			d += 2*b;
-		}
+	//octant 1
+	if (m >= 0 && m <= 1) {
+		d = 2*a + b;
+		printf("1\n");
 		
-		x1++;
-		d += 2*a;
+		while (x1 < x2) {
+			plotPoint(grid, x1, y1, &point);
+			//printf("%d\n", d);
+			if (d > 0) {
+				y1++;
+				d += 2*b;
+			}
+			
+			x1++;
+			d += 2*a;
+		}
+	}
+	//octant 2
+	else if (m > 1) {
+		d = a + 2*b;
+		
+	}
+	//octant 8
+	else if (m < 0 && m >= -1) {
+		d = 2*a - b;
+		printf("8\n");
+		
+		while (x1 < x2) {
+			plotPoint(grid, x1, y1, &point);
+			//printf("%d\n", d);
+			if (d < 0) {
+				y1--;
+				d += 2*b;
+			}
+			
+			x1++;
+			d += 2*a;
+		}
+	}
+	//octant 7
+	else if (m < -1) {
+		d = a - 2*b;
+		
 	}
 }
 
