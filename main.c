@@ -10,7 +10,9 @@ int main() {
 	hi.g = 235;
 	hi.b = 205;
 	
-	int x1 = 10, y1 = 50, x2 = 100, y2 = 10;
+	//(10, 100) (100, 10)
+	//(0, 0) (10, 1)
+	int x1 = 0, y1 = 0, x2 = 10, y2 = 1;
 	drawLine(test, x1, y1, x2, y2);
 	
 	writeToFile(test);
