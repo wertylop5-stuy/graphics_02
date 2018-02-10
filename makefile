@@ -1,8 +1,9 @@
 OBJS = draw.o output.o main.o
 OUTPUT = picture.ppm
+MATH_LIB = -lm
 
 all: $(OBJS)
-	gcc -o lines $(OBJS)
+	gcc -o lines $(OBJS) $(MATH_LIB)
 
 main.o: main.c include/draw.h include/output.h
 	gcc $(DBG) -c main.c include/draw.h include/output.h
