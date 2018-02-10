@@ -19,4 +19,6 @@ void plotPoint(Frame grid, int x, int y, struct Pixel *p);
 
 void drawLine(Frame grid, int x1, int y1, int x2, int y2);
 
+void pixelColor(struct Pixel *p, unsigned char r, unsigned char g, unsigned char b);
+
 #endif
