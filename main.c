@@ -17,10 +17,10 @@ sizeof struct pixel is 3
 */
 
 int main() {
-	struct pixel test[IMG_HEIGHT][IMG_WIDTH];
+	Frame test;
 	memset(test, 0, sizeof(test));
 	
-	struct pixel hi;
+	struct Pixel hi;
 	hi.r = 255;
 	hi.g = 235;
 	hi.b = 205;
@@ -30,8 +30,13 @@ int main() {
 	//(20, 10) (30, 150)
 	//(20, 0) (30, 150)
 	//(0, 0) (200, 150)
-	int x1 = 0, y1 = 0, x2 = 600, y2 = 150;
+	/*
+	int x1 = 0, y1 = IMG_HEIGHT-1, x2 = 5, y2 = 0;
 	drawLine(test, x1, y1, x2, y2);
+	*/
+	
+	drawLine(test, 0, 0, 0, 100);
+	drawLine(test, 6, 100, 6, 0);
 	
 	writeToFile(test);
 	

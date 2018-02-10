@@ -1,12 +1,12 @@
 #include"include/draw.h"
 
-void plotPoint(struct pixel grid[][IMG_WIDTH], int x, int y, struct pixel *p) {
-	//printf("Plotting %d, %d (%d, %d)\n", x, IMG_HEIGHT-y, x, y);
-	grid[IMG_HEIGHT-y][x] = *p;
+void plotPoint(Frame grid, int x, int y, struct Pixel *p) {
+	printf("Plotting %d, %d (%d, %d)\n", x, IMG_HEIGHT-1-y, x, y);
+	grid[IMG_HEIGHT-1-y][x] = *p;
 }
 
-void drawLine(struct pixel grid[][IMG_WIDTH], int x1, int y1, int x2, int y2) {
-	struct pixel point;
+void drawLine(Frame grid, int x1, int y1, int x2, int y2) {
+	struct Pixel point;
 	point.r = 255;
 	point.g = 235;
 	point.b = 205;
@@ -45,8 +45,8 @@ void drawLine(struct pixel grid[][IMG_WIDTH], int x1, int y1, int x2, int y2) {
 		d = 2*a + b;
 		printf("1\n");
 		
-		while (x1 <= x2) {
-			printf("%d, %d %d, %d\n", x1, y1, x2, y2);
+		while (x1 <= x2 && x1 < IMG_WIDTH) {
+			//printf("%d, %d %d, %d\n", x1, y1, x2, y2);
 			plotPoint(grid, x1, y1, &point);
 			//printf("%d\n", d);
 			if (d > 0) {
@@ -75,7 +75,7 @@ void drawLine(struct pixel grid[][IMG_WIDTH], int x1, int y1, int x2, int y2) {
 		d = a + 2*b;
 		printf("2\n");
 		
-		while (y1 <= y2) {
+		while (y1 <= y2 && y1 < IMG_HEIGHT) {
 			//printf("%d, %d\n", x1, y1);
 			plotPoint(grid, x1, y1, &point);
 			//printf("%d\n", d);
@@ -105,7 +105,7 @@ void drawLine(struct pixel grid[][IMG_WIDTH], int x1, int y1, int x2, int y2) {
 		d = 2*a - b;
 		printf("8\n");
 		
-		while (x1 <= x2) {
+		while (x1 <= x2 && x1 < IMG_WIDTH) {
 			//printf("%d, %d\n", x1, y1);
 			plotPoint(grid, x1, y1, &point);
 			//printf("%d\n", d);
@@ -135,7 +135,7 @@ void drawLine(struct pixel grid[][IMG_WIDTH], int x1, int y1, int x2, int y2) {
 		d = a - 2*b;
 		printf("7\n");
 		
-		while (y1 >= y2) {
+		while (y1 >= y2 && y1 < IMG_HEIGHT) {
 			//printf("%d, %d\n", x1, y1);
 			plotPoint(grid, x1, y1, &point);
 			//printf("%d\n", d);

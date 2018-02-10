@@ -1,6 +1,6 @@
 #include"include/output.h"
 
-void writeToFile(struct pixel p[][IMG_WIDTH]) {
+void writeToFile(Frame p) {
 	int fd = open(FILE_NAME, O_CREAT | O_WRONLY, 0644);
 	char buf[1024];
 	
