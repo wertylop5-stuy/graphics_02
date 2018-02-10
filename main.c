@@ -6,30 +6,18 @@
 #define SQUARE(x)	(x*x)
 
 #define NARROW_FACTOR	10.0f
+#define H		IMG_WIDTH/2
+#define K		IMG_HEIGHT/2
 
-#define FUNC(x)		( SQUARE( (x - (IMG_WIDTH/2.0f))/NARROW_FACTOR ) + (IMG_HEIGHT/2.0f) )
-#define INV(y)		( NARROW_FACTOR * sqrt(y + (IMG_HEIGHT/2.0f)) + (IMG_WIDTH/2.0f) )
-#define DERIV(x)	( (2.0f / SQUARE(NARROW_FACTOR)) * (x - (IMG_WIDTH/2.0f)) )
+#define FUNC(x)		( SQUARE( (x - H)/NARROW_FACTOR ) + K )
+#define INV(y)		( NARROW_FACTOR * sqrt(y - K) + H )
+#define DERIV(x)	( (2.0f / SQUARE(NARROW_FACTOR)) * (x - H) )
 
 char inBounds(float n, int max) {
 	return n >= 0 && n < max;
 }
 
-//gets the endpoint from a given point and slope
-//delta of +1 = endpoint to the right, -1 for the left
-//out[0] = x, out[1] = y
-/*
-void findEndpoint(int *out, int x, int y, float m, int delta) {
-	float x1 = (float)x;
-	
-	while ( inBounds(m*(x1-x) + y, IMG_HEIGHT) ) x1+=delta;
-	
-	out[0] = x1-delta;
-	out[1] = (int)roundf(m*(x1-delta-x) + y);
-}
-*/
-
-//faster way: find intersection with bounding lines
+//find intersection with bounding lines
 void findEndpoint(int *left, int *right, int x, int y, float m) {
 	float x1, y1;
 	float boundX, boundY;
@@ -103,25 +91,29 @@ int main() {
 	struct Pixel p;
 	pixelColor(&p, 0, 255, 0);
 	
+	//axes
 	drawLine(test, &p, IMG_WIDTH/2, 0, IMG_WIDTH/2, IMG_HEIGHT-1);
 	drawLine(test, &p, 0, IMG_HEIGHT/2, IMG_WIDTH-1, IMG_HEIGHT/2);
 	
-	pixelColor(&p, 255, 235, 205);
-	
-	//drawing a parabola with lines
-	int left[2], right[2];
+	//drawing a parabola with lines using the derivative
+	//y = ( (x - IMG_WIDTH/2)/10 )^2 - IMG_HEIGHT/2
 	
 	//find the start point
-	int range = (int)INV(IMG_HEIGHT-1);
+	int range = (int)floor(INV(IMG_HEIGHT-1));
+	
+	int left[2], right[2];	//left and right endpoint
+	unsigned char r = 255, g = 235, b = 205;
 	int x, y;
-	for (x = range; x >= -range; x-=5) {
-		y = (int)FUNC(x);
+	for (x = range; inBounds(y = (int)FUNC(x), IMG_HEIGHT); x-=5) {
+		pixelColor(&p, r, g, b);
+		
 		findEndpoint(left, right, x, y, DERIV(x));
-		//printf("%d, %d\n", left[0], left[1]);
-		//printf("%d, %d\n", right[0], right[1]);
 		
 		drawLine(test, &p, x, y, right[0], right[1]);
 		drawLine(test, &p, x, y, left[0], left[1]);
+		
+		r -= 3;
+		g -= 2;
 	}
 	writeToFile(test);
 	
