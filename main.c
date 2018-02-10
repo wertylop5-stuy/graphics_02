@@ -37,6 +37,8 @@ int main() {
 	
 	drawLine(test, 0, 0, 0, 100);
 	drawLine(test, 6, 100, 6, 0);
+	drawLine(test, 0, 100, 30, 100);
+	drawLine(test, 40, 50, 10, 50);
 	
 	writeToFile(test);
 	
